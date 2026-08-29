@@ -110,18 +110,21 @@
       margin-bottom: 20px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .nav-tab-btn {
       background: transparent;
       border: none;
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
       padding: 8px 16px;
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
     }
 
     .nav-tab-btn.active {
@@ -324,7 +327,6 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    /* NTA Top Bar */
     .cbt-topbar {
       background: #002b49;
       color: #fff;
@@ -338,7 +340,6 @@
     .candidate-info { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
     .candidate-photo { width: 36px; height: 36px; background: #cbd5e1; border-radius: 4px; border: 1px solid #fff; display: flex; align-items: center; justify-content: center; color: #000; font-size: 0.68rem; font-weight: bold; }
 
-    /* NTA Sub Bar */
     .cbt-subbar {
       background: #fff;
       border-bottom: 1px solid #cbd5e1;
@@ -350,7 +351,6 @@
     .paper-btn { background: #0284c7; color: #fff; border: 1px solid #0369a1; padding: 5px 12px; font-size: 0.82rem; font-weight: bold; border-radius: 3px; }
     .timer-box { font-size: 0.95rem; font-weight: bold; color: #b91c1c; background: #fee2e2; padding: 4px 10px; border-radius: 4px; border: 1px solid #f87171; }
 
-    /* NTA Split Container */
     .main-container { display: flex; flex: 1; overflow: hidden; }
     .question-panel { flex: 7; display: flex; flex-direction: column; background: #fff; border-right: 2px solid #cbd5e1; }
     .subject-bar { background-color: #f8fafc; padding: 10px 16px; font-weight: bold; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; }
@@ -439,9 +439,9 @@
   <div id="home-screen">
     <div class="portal-banner">
       <h2>UGC NET Political Science - Mock Portal</h2>
-      <p style="margin-top: 6px; color: var(--text-muted); font-size: 0.88rem;">Select Syllabus Units or Official Examination Shift Papers to start your authentic NTA CBT practice.</p>
+      <p style="margin-top: 6px; color: var(--text-muted); font-size: 0.88rem;">Select Syllabus Units, Shift Papers, or your Mistake Vault to start your authentic NTA CBT practice.</p>
 
-      <!-- Kept Advertisement Integration -->
+      <!-- Preserved Advertisement Code -->
       <div style="margin-top: 15px;">
         <script async="async" data-cfasync="false" src="https://pl31059663.profitableratecpmnetwork.com/cc1a85889222cae3b7348d6eb86030f8/invoke.js"></script>
         <div id="container-cc1a85889222cae3b7348d6eb86030f8"></div>
@@ -464,10 +464,13 @@
       </div>
     </div>
 
-    <!-- Tabs Navigation -->
+    <!-- 3-Way Tabs Navigation (Units / Papers / Mistake Vault) -->
     <div class="section-nav-tabs">
       <button class="nav-tab-btn active" id="tabUnitsBtn" onclick="switchHomeTab('UNITS')">Syllabus Units Practice</button>
       <button class="nav-tab-btn" id="tabPapersBtn" onclick="switchHomeTab('PAPERS')">Year-Wise Shift Papers</button>
+      <button class="nav-tab-btn" id="tabVaultBtn" onclick="switchHomeTab('VAULT')">
+        Mistake Vault 📕 <span id="vaultBadgeCount" style="background: #ef4444; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 10px; margin-left: 6px;">0</span>
+      </button>
     </div>
 
     <!-- Tab Section A: 10 Syllabus Units -->
@@ -478,6 +481,25 @@
     <!-- Tab Section B: Year-Wise Papers -->
     <div id="papers-section" style="display: none;">
       <div id="index-hierarchy-container"></div>
+    </div>
+
+    <!-- Tab Section C: Mistake Vault -->
+    <div id="vault-section" style="display: none;">
+      <div class="unit-card" style="background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(15, 23, 42, 0.7)); border-color: rgba(239, 68, 68, 0.4); margin-bottom: 16px;">
+        <div class="unit-info">
+          <div class="unit-icon" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">📕</div>
+          <div class="unit-meta">
+            <h3>Automated Mistake Revision Vault</h3>
+            <span id="vaultStatusText">0 Mistakes awaiting review</span>
+          </div>
+        </div>
+        <div class="unit-actions">
+          <button class="btn-quick" style="background: linear-gradient(135deg, #ef4444, #dc2626);" onclick="launchVaultCBT()">Re-Attempt in CBT Mode</button>
+          <button class="btn-custom" onclick="clearEntireVault()" title="Clear All Mistakes">🗑️</button>
+        </div>
+      </div>
+
+      <div id="vaultQuestionList" style="display: flex; flex-direction: column; gap: 12px;"></div>
     </div>
   </div>
 
@@ -512,7 +534,6 @@
        VIEW 3: 100% AUTHENTIC NTA CBT EXAM SCREEN
        ========================================== -->
   <div id="exam-screen">
-    <!-- NTA Top Bar -->
     <div class="cbt-topbar">
       <div class="title">UGC-NET EXAM - NTA PORTAL</div>
       <div class="candidate-info">
@@ -524,7 +545,6 @@
       </div>
     </div>
 
-    <!-- NTA Sub Bar -->
     <div class="cbt-subbar">
       <div>
         <button class="paper-btn" id="live-exam-title">Paper-II Political Science</button>
@@ -532,7 +552,6 @@
       <div class="timer-box">Time Left: <span id="timer">00:00:00</span></div>
     </div>
 
-    <!-- NTA Main Split Interface -->
     <div class="main-container">
       <div class="question-panel">
         <div class="subject-bar">
@@ -545,7 +564,6 @@
           <table class="options-table" id="options-container"></table>
         </div>
         
-        <!-- Exact NTA Action Buttons -->
         <div class="action-bar">
           <div class="footer-left">
             <button class="nta-btn btn-save-next" onclick="saveAndNext()">Save & Next</button>
@@ -559,7 +577,6 @@
         </div>
       </div>
 
-      <!-- Right Palette Panel -->
       <div class="palette-panel">
         <div class="legend-grid">
           <div class="legend-item"><span class="badge status-answered" id="cnt-answered">0</span> Answered</div>
@@ -634,6 +651,8 @@
       MARKED_ANSWERED: 'marked-answered'
     };
 
+    const VAULT_STORAGE_KEY = 'ugc_net_mistake_vault';
+
     let activePaper = null;
     let userState = [];
     let currentIndex = 0;
@@ -670,15 +689,22 @@
       return pool;
     }
 
-    // Switch between Unit and Paper Tabs
+    // Tab Switcher
     function switchHomeTab(tab) {
       document.getElementById('tabUnitsBtn').classList.toggle('active', tab === 'UNITS');
       document.getElementById('tabPapersBtn').classList.toggle('active', tab === 'PAPERS');
+      document.getElementById('tabVaultBtn').classList.toggle('active', tab === 'VAULT');
+
       document.getElementById('units-section').style.display = (tab === 'UNITS') ? 'block' : 'none';
       document.getElementById('papers-section').style.display = (tab === 'PAPERS') ? 'block' : 'none';
+      document.getElementById('vault-section').style.display = (tab === 'VAULT') ? 'block' : 'none';
+
+      if (tab === 'VAULT') {
+        updateVaultUI();
+      }
     }
 
-    // Render Unit Cards
+    // Render 10 Unit Cards
     function renderUnitCards() {
       const container = document.getElementById('unitCardsContainer');
       container.innerHTML = '';
@@ -709,7 +735,7 @@
       });
     }
 
-    // Render Legacy Papers Index
+    // Render Legacy Year-Wise Hierarchy
     function renderHomeIndex() {
       const container = document.getElementById('index-hierarchy-container');
       container.innerHTML = '';
@@ -741,7 +767,101 @@
       });
     }
 
-    // Modal Triggers
+    // Mistake Vault Storage & Management
+    function getStoredMistakes() {
+      const data = localStorage.getItem(VAULT_STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    }
+
+    function saveMistakesToVault(incorrectOrSkippedQuestions) {
+      let vault = getStoredMistakes();
+      incorrectOrSkippedQuestions.forEach(q => {
+        const exists = vault.some(item => item.text === q.text);
+        if (!exists) {
+          vault.push({
+            text: q.text,
+            options: q.options,
+            correct: q.correct,
+            explanation: q.explanation,
+            unit_id: q.unit_id || 1,
+            unit_name: q.unit_name || "General",
+            sub_topic: q.sub_topic || "General",
+            paperTitle: q.paperTitle || "Exam Test"
+          });
+        }
+      });
+      localStorage.setItem(VAULT_STORAGE_KEY, JSON.stringify(vault));
+      updateVaultUI();
+    }
+
+    function removeQuestionFromVault(questionText) {
+      let vault = getStoredMistakes();
+      vault = vault.filter(item => item.text !== questionText);
+      localStorage.setItem(VAULT_STORAGE_KEY, JSON.stringify(vault));
+      updateVaultUI();
+    }
+
+    function clearEntireVault() {
+      if (confirm("Are you sure you want to clear all questions from your Mistake Vault?")) {
+        localStorage.removeItem(VAULT_STORAGE_KEY);
+        updateVaultUI();
+      }
+    }
+
+    function updateVaultUI() {
+      const vault = getStoredMistakes();
+      const countBadge = document.getElementById('vaultBadgeCount');
+      const statusText = document.getElementById('vaultStatusText');
+      const container = document.getElementById('vaultQuestionList');
+
+      if (countBadge) countBadge.innerText = vault.length;
+      if (statusText) statusText.innerText = `${vault.length} Questions awaiting mastery`;
+
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (vault.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px; background: rgba(30, 41, 59, 0.4); border-radius: 16px; border: 1px dashed rgba(255,255,255,0.15);">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🎉</div>
+            <h3 style="font-size: 1.1rem; color: #86efac; margin-bottom: 4px;">Vault is Empty!</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">No wrong questions recorded. Complete tests to track mistakes automatically.</p>
+          </div>
+        `;
+        return;
+      }
+
+      vault.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = 'unit-card';
+        card.style = "display: block; opacity: 1; animation: none;";
+        
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; font-size: 0.72rem; font-weight: bold; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(239, 68, 68, 0.3);">
+              ${q.unit_name} &bull; ${q.sub_topic}
+            </span>
+            <button onclick="removeQuestionFromVault('${q.text.replace(/'/g, "\\'")}')" style="background: transparent; border: none; color: #94a3b8; cursor: pointer; font-size: 0.85rem;" title="Mark as Mastered">✕</button>
+          </div>
+          <p style="font-size: 0.92rem; font-weight: 600; margin-bottom: 8px;">Q${idx + 1}. ${q.text}</p>
+          <div style="font-size: 0.82rem; color: #86efac; background: rgba(34, 197, 94, 0.1); padding: 6px 10px; border-radius: 6px; border-left: 3px solid #22c55e;">
+            <strong>Correct Answer:</strong> (${String.fromCharCode(65 + q.correct)}) ${q.options[q.correct]}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function launchVaultCBT() {
+      const vault = getStoredMistakes();
+      if (vault.length === 0) {
+        alert("Your Mistake Vault is empty! There are no wrong questions to re-attempt.");
+        return;
+      }
+      initCBTWithQuestionSet("Mistake Vault Re-Test", vault, Math.min(Math.ceil(vault.length * 1.5), 75));
+    }
+
+    // Modal Trigger for Subtopics
     function openCustomModal(unitId) {
       activeUnitId = unitId;
       const unit = unitsData.find(u => u.id === unitId);
@@ -781,7 +901,7 @@
       }
 
       closeModal();
-      initCBTWithQuestionSet(`Unit ${activeUnitId} Custom CBT`, filtered.slice(0, selectedCount), Math.min(filtered.length * 1.5, 75));
+      initCBTWithQuestionSet(`Unit ${activeUnitId} Custom CBT`, filtered.slice(0, selectedCount), Math.min(Math.ceil(filtered.length * 1.5), 75));
     }
 
     function startQuickUnitExam(unitId) {
@@ -800,7 +920,7 @@
       initCBTWithQuestionSet(activePaper.title, activePaper.questions, activePaper.durationMinutes);
     }
 
-    // Core CBT Starter
+    // Core CBT Engine Starter
     function initCBTWithQuestionSet(title, questions, durationMinutes) {
       if (!questions || questions.length === 0) {
         alert("No questions available for this selection.");
@@ -926,14 +1046,27 @@
       if (timerInterval) clearInterval(timerInterval);
       recordTime(); 
       let correct = 0, wrong = 0, attempted = 0;
+      let mistakesToSave = [];
 
       userState.forEach((state, i) => {
+        const q = activePaper.questions[i];
         if (state.selectedOption !== null) {
           attempted++;
-          if (state.selectedOption === activePaper.questions[i].correct) correct++;
-          else wrong++;
+          if (state.selectedOption === q.correct) {
+            correct++;
+            removeQuestionFromVault(q.text);
+          } else {
+            wrong++;
+            mistakesToSave.push(q);
+          }
+        } else {
+          mistakesToSave.push(q);
         }
       });
+
+      if (mistakesToSave.length > 0) {
+        saveMistakesToVault(mistakesToSave);
+      }
 
       document.getElementById('res-total').innerText = activePaper.questions.length;
       document.getElementById('res-attempted').innerText = attempted;
@@ -1004,13 +1137,15 @@
       document.getElementById('exam-screen').style.display = 'none';
       document.getElementById('review-screen').style.display = 'none';
       document.getElementById('home-screen').style.display = 'block';
+      updateVaultUI();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Initialize Home on Load
+    // Initialize App on Startup
     window.addEventListener('DOMContentLoaded', () => {
       renderUnitCards();
       renderHomeIndex();
+      updateVaultUI();
     });
   </script>
 </body>
