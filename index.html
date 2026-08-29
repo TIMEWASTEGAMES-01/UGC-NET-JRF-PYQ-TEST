@@ -6,7 +6,7 @@
   <title>PolSci Master - UGC NET Prep Hub</title>
   <style>
     /* =========================================================
-       1. UNIQUE "NEO-ACADEMY" CREATIVE UI WITH SIDEBAR
+       1. CREATIVE NEO-DARK THEME & SLIDING SIDE DRAWER
        ========================================================= */
     :root {
       --bg-deep: #060913;
@@ -44,7 +44,7 @@
       overflow-x: hidden;
     }
 
-    /* Top Navigation Bar */
+    /* Top Sticky Header with Hamburger (☰ Three Lines) */
     .top-navbar {
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(12px);
@@ -59,19 +59,20 @@
       z-index: 50;
     }
 
-    .nav-brand {
+    .nav-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .btn-menu-toggle {
-      background: rgba(255, 255, 255, 0.06);
+    /* The Three Lines Hamburger Button */
+    .hamburger-btn {
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-glass);
       color: #fff;
-      font-size: 1.3rem;
-      width: 40px;
-      height: 40px;
+      font-size: 1.4rem;
+      width: 42px;
+      height: 42px;
       border-radius: 10px;
       cursor: pointer;
       display: flex;
@@ -79,15 +80,15 @@
       justify-content: center;
       transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .btn-menu-toggle:hover {
-      background: rgba(6, 182, 212, 0.2);
+    .hamburger-btn:hover {
+      background: rgba(6, 182, 212, 0.25);
       border-color: var(--neon-cyan);
       transform: scale(1.05);
     }
-    .btn-menu-toggle:active { transform: scale(0.92); }
+    .hamburger-btn:active { transform: scale(0.92); }
 
     .brand-title-text {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 800;
       letter-spacing: -0.5px;
       background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
@@ -96,7 +97,7 @@
     }
 
     /* =========================================================
-       SIDE NAVIGATION DRAWER
+       SLIDING SIDE NAVIGATION DRAWER (OPENS ON CLICK)
        ========================================================= */
     .drawer-overlay {
       position: fixed;
@@ -116,59 +117,60 @@
       top: 0;
       left: 0;
       bottom: 0;
-      width: 290px;
-      background: #0f172a;
+      width: 300px;
+      background: #0d1527;
       border-right: 1px solid var(--border-glass);
       z-index: 999;
       display: flex;
       flex-direction: column;
       transform: translateX(-100%);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 10px 0 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 12px 0 40px rgba(0, 0, 0, 0.7);
     }
     .drawer-overlay.active .side-drawer { transform: translateX(0); }
 
     .drawer-header {
-      padding: 20px;
+      padding: 22px 20px;
       border-bottom: 1px solid var(--border-glass);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: rgba(15, 23, 42, 0.9);
     }
 
     .drawer-nav-list {
-      padding: 16px 12px;
+      padding: 18px 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       flex: 1;
     }
 
     .drawer-nav-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: 12px;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: 14px;
       color: var(--text-sub);
       text-decoration: none;
-      font-size: 0.92rem;
-      font-weight: 600;
+      font-size: 0.95rem;
+      font-weight: 700;
       cursor: pointer;
       background: transparent;
       border: 1px solid transparent;
       transition: all 0.2s ease;
     }
     .drawer-nav-item:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
       color: #fff;
-      transform: translateX(4px);
+      transform: translateX(5px);
     }
     .drawer-nav-item.active {
-      background: rgba(6, 182, 212, 0.15);
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
       border-color: var(--neon-cyan);
       color: #fff;
-      box-shadow: 0 0 16px rgba(6, 182, 212, 0.2);
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.25);
     }
 
     .drawer-badge {
@@ -176,12 +178,12 @@
       background: var(--neon-rose);
       color: #fff;
       font-size: 0.72rem;
-      padding: 2px 7px;
-      border-radius: 10px;
-      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 800;
     }
 
-    /* Layout Wrapper */
+    /* Page Container */
     #home-screen {
       flex: 1;
       max-width: 980px;
@@ -191,7 +193,7 @@
       overflow-y: auto;
     }
 
-    /* Prominent Revision Vault Hero Card */
+    /* Vault Banner */
     .vault-hero-card {
       background: linear-gradient(135deg, rgba(244, 63, 94, 0.15), rgba(30, 41, 59, 0.85));
       border: 1px solid rgba(244, 63, 94, 0.3);
@@ -236,7 +238,7 @@
     .btn-vault-action:hover { transform: translateY(-2px); filter: brightness(1.1); }
     .btn-vault-action:active { transform: scale(0.95); }
 
-    /* Grid of Futuristic Unit Cards */
+    /* Unit Cards Grid */
     .units-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -364,7 +366,7 @@
     }
 
     /* =========================================================
-       2. 100% AUTHENTIC NTA CBT ENGINE (TEST SCREEN)
+       2. 100% AUTHENTIC NTA CBT ENGINE (TEST SCREEN ONLY)
        ========================================================= */
     #exam-screen {
       display: none;
@@ -480,37 +482,37 @@
 </head>
 <body>
 
-  <!-- Top Sticky Navigation Bar -->
+  <!-- Top Navigation Bar with Hamburger (☰ Three Lines) -->
   <div class="top-navbar" id="mainTopNav">
-    <div class="nav-brand">
-      <button class="btn-menu-toggle" onclick="toggleSideMenu()" aria-label="Open Menu">☰</button>
+    <div class="nav-left">
+      <button class="hamburger-btn" onclick="toggleSideMenu()" aria-label="Open Navigation Menu">☰</button>
       <span class="brand-title-text">PolSci Master</span>
     </div>
     <div id="topAdArea">
-      <!-- Kept Advertisement Container -->
+      <!-- Preserved Advertisement Code -->
       <script async="async" data-cfasync="false" src="https://pl31059663.profitableratecpmnetwork.com/cc1a85889222cae3b7348d6eb86030f8/invoke.js"></script>
       <div id="container-cc1a85889222cae3b7348d6eb86030f8"></div>
     </div>
   </div>
 
   <!-- =========================================================
-       SIDE NAVIGATION DRAWER MENU
+       SLIDING SIDE NAVIGATION DRAWER (OPENS ON CLICKING ☰)
        ========================================================= -->
   <div class="drawer-overlay" id="sideDrawerOverlay" onclick="closeSideMenu()">
     <div class="side-drawer" onclick="event.stopPropagation()">
       <div class="drawer-header">
-        <span class="brand-title-text" style="font-size: 1.1rem;">Navigation Deck</span>
-        <button onclick="closeSideMenu()" style="background: transparent; border: none; color: var(--text-sub); font-size: 1.3rem; cursor: pointer;">✕</button>
+        <span class="brand-title-text" style="font-size: 1.15rem;">PolSci Portal</span>
+        <button onclick="closeSideMenu()" style="background: transparent; border: none; color: var(--text-sub); font-size: 1.4rem; cursor: pointer;">✕</button>
       </div>
       <div class="drawer-nav-list">
         <div class="drawer-nav-item active" id="menuItemUnits" onclick="selectDrawerTab('UNITS')">
-          <span>🏛️</span> Topic-Wise (10 Units)
+          <span>🏛️</span> Topic-Wise Practice (10 Units)
         </div>
         <div class="drawer-nav-item" id="menuItemPapers" onclick="selectDrawerTab('PAPERS')">
           <span>📅</span> Year-Wise Shift Papers
         </div>
         <div class="drawer-nav-item" id="menuItemVault" onclick="selectDrawerTab('VAULT')">
-          <span>📕</span> Mistake Vault
+          <span>📕</span> Smart Mistake Vault
           <span class="drawer-badge" id="menuVaultCount">0</span>
         </div>
       </div>
@@ -521,7 +523,7 @@
        VIEW 1: MAIN HOME HUB
        ========================================== -->
   <div id="home-screen">
-    <!-- Live Smart Revision Vault Hero Card -->
+    <!-- Live Smart Revision Vault Card -->
     <div class="vault-hero-card">
       <div class="vault-title-group">
         <div class="vault-icon-badge">📕</div>
@@ -713,7 +715,7 @@
     let questionStartTime = 0;
     let activeUnitId = null;
 
-    // Drawer Menu Controllers
+    // Drawer Menu Functions
     function toggleSideMenu() {
       document.getElementById('sideDrawerOverlay').classList.toggle('active');
     }
