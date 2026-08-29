@@ -3,69 +3,428 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UGC NET Political Science - Mock Portal</title>
+  <title>UGC NET Political Science - Smart PYQ Hub & NTA CBT Portal</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
-    body { background-color: #f4f6f9; color: #333; height: 100vh; display: flex; flex-direction: column; }
-    header { background-color: #1e3a8a; color: #fff; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #f59e0b; }
-    .brand-title { font-size: 1.15rem; font-weight: bold; }
-    .timer-box { background: #dc2626; padding: 6px 14px; border-radius: 4px; font-weight: bold; font-size: 1rem; }
-    
-    #home-screen { flex: 1; padding: 30px 20px; max-width: 1050px; margin: 0 auto; width: 100%; overflow-y: auto; }
-    .portal-banner { background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 24px; border-left: 5px solid #1e3a8a; }
-    .year-card { background: #fff; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 20px; overflow: hidden; }
-    .year-header { background: #f8fafc; padding: 14px 20px; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid #e2e8f0; color: #1e3a8a; }
-    .session-container { padding: 15px 20px; display: flex; flex-direction: column; gap: 15px; }
-    .session-title { font-weight: 600; font-size: 1rem; color: #475569; }
-    .paper-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
-    .paper-btn-card { border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; background: #f8fafc; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
-    .paper-btn-card:hover { border-color: #1e3a8a; background: #f0fdf4; }
-    .paper-info-title { font-weight: bold; color: #0f172a; font-size: 0.95rem; }
-    .paper-meta { font-size: 0.85rem; color: #64748b; margin-top: 4px; }
-    .btn-start-test { background-color: #16a34a; color: white; border: none; padding: 9px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    /* =========================================================
+       1. FLUID MODERN THEME (DASHBOARD, UNITS & MODALS)
+       ========================================================= */
+    :root {
+      --bg-main: #0b0f19;
+      --bg-card: rgba(30, 41, 59, 0.75);
+      --bg-card-hover: rgba(51, 65, 85, 0.9);
+      --accent-blue: #38bdf8;
+      --accent-cyan: #06b6d4;
+      --accent-purple: #a855f7;
+      --accent-gold: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 
-    #exam-screen { display: none; flex: 1; flex-direction: column; height: 100%; }
+      /* Official NTA Colors */
+      --c-not-visited: #e2e8f0;
+      --c-not-answered: #dc2626;
+      --c-answered: #16a34a;
+      --c-review: #9333ea;
+      --c-review-ans: #7e22ce;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    
+    body {
+      background: radial-gradient(circle at 50% 0%, #172554 0%, #0b0f19 80%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Fluid Animations */
+    @keyframes slideFadeUp {
+      0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.25); }
+      50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); }
+    }
+
+    /* Home Dashboard */
+    #home-screen {
+      flex: 1;
+      padding: 24px 16px 40px;
+      max-width: 950px;
+      margin: 0 auto;
+      width: 100%;
+      overflow-y: auto;
+    }
+
+    .portal-banner {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border-left: 6px solid var(--accent-blue);
+      animation: slideFadeUp 0.6s var(--ease-smooth) forwards;
+    }
+
+    .portal-banner h2 {
+      font-size: 1.45rem;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Glassmorphic Stats Grid */
+    .stats-banner {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-around;
+      animation: slideFadeUp 0.6s var(--ease-smooth) forwards;
+    }
+
+    .stat-item { text-align: center; }
+    .stat-item h4 {
+      font-size: 1.35rem;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-item p { margin: 4px 0 0; font-size: 0.72rem; color: var(--text-muted); }
+
+    /* Tabs Toggle Header */
+    .section-nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    /* Dynamic Staggered Unit Cards */
+    .unit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .unit-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 0;
+      animation: slideFadeUp 0.5s var(--ease-smooth) forwards;
+      transition: transform 0.25s var(--ease-spring), background 0.25s ease, border-color 0.25s ease;
+      cursor: pointer;
+    }
+
+    .unit-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 10px 20px -8px rgba(56, 189, 248, 0.2);
+    }
+
+    .unit-card:active { transform: scale(0.98); }
+
+    .unit-info { display: flex; align-items: center; gap: 14px; }
+    .unit-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(168, 85, 247, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s var(--ease-spring);
+    }
+
+    .unit-card:hover .unit-icon { transform: rotate(-6deg) scale(1.1); }
+    .unit-meta h3 { font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .unit-meta span { font-size: 0.78rem; color: var(--text-muted); }
+
+    .btn-quick {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.18s var(--ease-spring), filter 0.2s ease;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-quick:hover { filter: brightness(1.15); }
+    .btn-quick:active { transform: scale(0.92); }
+
+    .btn-custom {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: transform 0.18s var(--ease-spring), background 0.2s ease;
+    }
+
+    .btn-custom:hover { background: rgba(255, 255, 255, 0.15); transform: rotate(45deg); }
+    .badge-pro {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 5px;
+      letter-spacing: 0.5px;
+      animation: pulseGlow 2.5s infinite;
+    }
+
+    /* Year-Wise Legacy Grouping */
+    .year-card {
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    .year-header {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 14px 20px;
+      font-size: 1.05rem;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--accent-blue);
+    }
+    .session-container { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+    .session-title { font-weight: 600; font-size: 0.95rem; color: var(--text-muted); }
+    .paper-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .paper-btn-card {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      background: rgba(15, 23, 42, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+    .paper-btn-card:hover { border-color: var(--accent-blue); background: rgba(56, 189, 248, 0.08); transform: translateY(-2px); }
+    .paper-info-title { font-weight: bold; color: var(--text-main); font-size: 0.92rem; }
+    .paper-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* Fluid Slide-Up Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-content-glass {
+      background: #151d30;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px 24px 0 0;
+      padding: 24px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+      transform: translateY(100%);
+      transition: transform 0.38s var(--ease-smooth);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    @media (min-width: 600px) {
+      .modal-overlay { align-items: center; padding: 16px; }
+      .modal-content-glass { border-radius: 20px; transform: scale(0.95) translateY(20px); }
+    }
+    .modal-overlay.active .modal-content-glass { transform: translateY(0) scale(1); }
+
+    .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .chip-label input { display: none; }
+    .chip-pill {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      padding: 7px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-spring);
+      user-select: none;
+    }
+    .chip-label input:checked + .chip-pill {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(37, 99, 235, 0.25));
+      border-color: var(--accent-blue);
+      color: #fff;
+      font-weight: 600;
+      transform: scale(1.05);
+    }
+
+    /* =========================================================
+       2. 100% AUTHENTIC NTA CBT EXAM SIMULATOR
+       ========================================================= */
+    #exam-screen {
+      display: none;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #f1f5f9;
+      color: #1e293b;
+      user-select: none;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* NTA Top Bar */
+    .cbt-topbar {
+      background: #002b49;
+      color: #fff;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #f97316;
+    }
+    .cbt-topbar .title { font-weight: bold; font-size: 1.05rem; }
+    .candidate-info { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
+    .candidate-photo { width: 36px; height: 36px; background: #cbd5e1; border-radius: 4px; border: 1px solid #fff; display: flex; align-items: center; justify-content: center; color: #000; font-size: 0.68rem; font-weight: bold; }
+
+    /* NTA Sub Bar */
+    .cbt-subbar {
+      background: #fff;
+      border-bottom: 1px solid #cbd5e1;
+      padding: 6px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .paper-btn { background: #0284c7; color: #fff; border: 1px solid #0369a1; padding: 5px 12px; font-size: 0.82rem; font-weight: bold; border-radius: 3px; }
+    .timer-box { font-size: 0.95rem; font-weight: bold; color: #b91c1c; background: #fee2e2; padding: 4px 10px; border-radius: 4px; border: 1px solid #f87171; }
+
+    /* NTA Split Container */
     .main-container { display: flex; flex: 1; overflow: hidden; }
     .question-panel { flex: 7; display: flex; flex-direction: column; background: #fff; border-right: 2px solid #cbd5e1; }
-    .subject-bar { background-color: #e2e8f0; padding: 10px 20px; font-weight: 600; display: flex; justify-content: space-between; border-bottom: 1px solid #cbd5e1; }
-    .question-content { padding: 25px; flex: 1; overflow-y: auto; }
-    .q-number { font-weight: bold; margin-bottom: 12px; color: #1e3a8a; font-size: 1rem; }
-    .q-text { font-size: 1.05rem; line-height: 1.6; margin-bottom: 24px; white-space: pre-line; }
-    .options-list { list-style: none; }
-    .option-item { margin-bottom: 12px; display: flex; align-items: flex-start; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; }
-    .option-item:hover { background-color: #f1f5f9; }
-    .option-item input { margin-right: 12px; margin-top: 3px; }
+    .subject-bar { background-color: #f8fafc; padding: 10px 16px; font-weight: bold; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; }
     
-    .action-bar { padding: 12px 20px; background: #f8fafc; border-top: 1px solid #cbd5e1; display: flex; gap: 10px; flex-wrap: wrap; }
-    button { padding: 8px 16px; font-size: 0.9rem; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; }
-    .btn-save-next { background-color: #16a34a; color: white; }
-    .btn-save-mark { background-color: #f59e0b; color: white; }
-    .btn-clear { background-color: #64748b; color: white; }
-    .btn-mark-next { background-color: #9333ea; color: white; }
-    .btn-submit { background-color: #dc2626; color: white; margin-left: auto; }
+    .question-content { padding: 20px; flex: 1; overflow-y: auto; }
+    .q-number { font-weight: bold; margin-bottom: 8px; color: #1e3a8a; font-size: 0.95rem; }
+    .q-text { font-size: 1rem; line-height: 1.5; margin-bottom: 20px; font-weight: 500; white-space: pre-line; color: #0f172a; }
     
-    .palette-panel { flex: 3; background: #f8fafc; padding: 15px; display: flex; flex-direction: column; overflow-y: auto; }
-    .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.75rem; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #cbd5e1; }
-    .badge { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; color: white; border-radius: 4px; }
-    .status-not-visited { background: #cbd5e1; color: #333; }
-    .status-not-answered { background: #ef4444; }
-    .status-answered { background: #22c55e; }
-    .status-marked { background: #a855f7; border-radius: 50%; }
-    .status-marked-answered { background: #a855f7; border-radius: 50%; position: relative; }
-    .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
-    .palette-btn { height: 35px; border: 1px solid #cbd5e1; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 4px; }
+    .options-table { width: 100%; border-collapse: collapse; }
+    .option-row { border-bottom: 1px solid #f1f5f9; cursor: pointer; }
+    .option-row:hover { background: #f8fafc; }
+    .option-row td { padding: 10px 6px; vertical-align: middle; }
 
-    #review-screen { display: none; flex: 1; flex-direction: column; height: 100%; background: #f8fafc; overflow-y: auto; padding: 25px; }
-    .review-container { max-width: 900px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
-    .review-card { background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #cbd5e1; }
-    .review-card.correct { border-left: 6px solid #16a34a; }
-    .review-card.incorrect { border-left: 6px solid #dc2626; }
+    .action-bar { padding: 10px 16px; background: #f8fafc; border-top: 1px solid #cbd5e1; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    .footer-left, .footer-right { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .nta-btn {
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .btn-save-next { background: #16a34a; color: #fff; border-color: #15803d; }
+    .btn-save-mark { background: #ea580c; color: #fff; border-color: #c2410c; }
+    .btn-clear { background: #f1f5f9; color: #475569; }
+    .btn-mark-next { background: #0284c7; color: #fff; border-color: #0369a1; }
+    .btn-submit { background: #dc2626; color: #fff; border-color: #b91c1c; }
+
+    /* Right Side Palette */
+    .palette-panel { flex: 3; background: #f8fafc; padding: 12px; display: flex; flex-direction: column; overflow-y: auto; }
+    .legend-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.72rem;
+      border-bottom: 1px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 10px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .badge {
+      width: 22px; height: 20px; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: bold; color: white; font-size: 0.72rem;
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    }
+    .status-not-visited { background: var(--c-not-visited); color: #334155; clip-path: none; border-radius: 3px; border: 1px solid #cbd5e1; }
+    .status-not-answered { background: var(--c-not-answered); }
+    .status-answered { background: var(--c-answered); }
+    .status-marked { background: var(--c-review); border-radius: 50%; clip-path: none; }
+    .status-marked-answered { background: var(--c-review-ans); border-radius: 50%; clip-path: none; position: relative; }
+    .status-marked-answered::after { content: '✓'; font-size: 8px; color: #22c55e; position: absolute; bottom: 0; right: 0; font-weight: bold; }
+
+    .palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; max-height: 380px; overflow-y: auto; }
+    .palette-btn {
+      height: 34px; font-weight: bold; border: 1px solid #94a3b8; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+    }
+    .palette-btn.status-not-visited { background: var(--c-not-visited); color: #334155; }
+    .palette-btn.status-not-answered { background: var(--c-not-answered); color: #fff; clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%); border: none; }
+    .palette-btn.status-answered { background: var(--c-answered); color: #fff; clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%); border: none; }
+    .palette-btn.status-marked { background: var(--c-review); color: #fff; border-radius: 50%; border: none; }
+    .palette-btn.status-marked-answered { background: var(--c-review-ans); color: #fff; border-radius: 50%; border: none; position: relative; }
+    .palette-btn.status-marked-answered::after { content: '✓'; font-size: 10px; color: #86efac; position: absolute; bottom: 2px; right: 4px; }
+
+    /* Post Exam Review Screen */
+    #review-screen { display: none; flex: 1; flex-direction: column; height: 100%; background: #0b0f19; overflow-y: auto; padding: 25px; }
+    .review-container { max-width: 900px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 16px; }
+    .review-card { background: var(--bg-card); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); }
+    .review-card.correct { border-left: 6px solid #22c55e; }
+    .review-card.incorrect { border-left: 6px solid #ef4444; }
     .review-card.skipped { border-left: 6px solid #64748b; }
-    .review-explanation { margin-top: 15px; padding: 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.95rem; line-height: 1.5; color: #334155; }
-    .time-badge { font-size: 0.85rem; color: #475569; background: #e2e8f0; padding: 4px 8px; border-radius: 4px; font-weight: normal; margin-left: 10px; }
-    
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); align-items: center; justify-content: center; z-index: 1000; }
-    .modal-content { background: white; padding: 24px; border-radius: 8px; max-width: 480px; width: 90%; text-align: center; }
+    .review-explanation { margin-top: 14px; padding: 12px; background: rgba(56, 189, 248, 0.1); border-radius: 6px; font-size: 0.88rem; line-height: 1.5; color: #bae6fd; border-left: 3px solid var(--accent-blue); }
+    .time-badge { font-size: 0.8rem; color: var(--accent-cyan); background: rgba(6, 182, 212, 0.1); padding: 4px 8px; border-radius: 4px; font-weight: normal; margin-left: 8px; }
+
+    /* Modals */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); align-items: center; justify-content: center; z-index: 1000; }
+    .modal-content { background: white; padding: 24px; border-radius: 8px; max-width: 460px; width: 90%; text-align: center; color: #0f172a; }
     .modal-content table { width: 100%; margin: 15px 0; border-collapse: collapse; }
     .modal-content td { padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
     .modal-content td:last-child { text-align: right; font-weight: bold; }
@@ -74,68 +433,166 @@
 </head>
 <body>
 
+  <!-- ==========================================
+       VIEW 1: MODERN FLUID HOME DASHBOARD
+       ========================================== -->
   <div id="home-screen">
     <div class="portal-banner">
       <h2>UGC NET Political Science - Mock Portal</h2>
-      <p style="margin-top: 6px; color: #64748b;">Select the Examination Year, Session, and Paper to start the CBT test practice.</p>
-   <script async="async" data-cfasync="false" src="https://pl31059663.profitableratecpmnetwork.com/cc1a85889222cae3b7348d6eb86030f8/invoke.js"></script>
-<div id="container-cc1a85889222cae3b7348d6eb86030f8"></div>
+      <p style="margin-top: 6px; color: var(--text-muted); font-size: 0.88rem;">Select Syllabus Units or Official Examination Shift Papers to start your authentic NTA CBT practice.</p>
 
+      <!-- Kept Advertisement Integration -->
+      <div style="margin-top: 15px;">
+        <script async="async" data-cfasync="false" src="https://pl31059663.profitableratecpmnetwork.com/cc1a85889222cae3b7348d6eb86030f8/invoke.js"></script>
+        <div id="container-cc1a85889222cae3b7348d6eb86030f8"></div>
+      </div>
     </div>
-    <div id="index-hierarchy-container"></div>
+
+    <!-- Glassmorphic Live Metrics -->
+    <div class="stats-banner">
+      <div class="stat-item">
+        <h4>10</h4>
+        <p>Syllabus Units</p>
+      </div>
+      <div class="stat-item">
+        <h4>2012–2014</h4>
+        <p>Solved Years</p>
+      </div>
+      <div class="stat-item">
+        <h4>300+</h4>
+        <p>Official PYQs</p>
+      </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="section-nav-tabs">
+      <button class="nav-tab-btn active" id="tabUnitsBtn" onclick="switchHomeTab('UNITS')">Syllabus Units Practice</button>
+      <button class="nav-tab-btn" id="tabPapersBtn" onclick="switchHomeTab('PAPERS')">Year-Wise Shift Papers</button>
+    </div>
+
+    <!-- Tab Section A: 10 Syllabus Units -->
+    <div id="units-section">
+      <div class="unit-list" id="unitCardsContainer"></div>
+    </div>
+
+    <!-- Tab Section B: Year-Wise Papers -->
+    <div id="papers-section" style="display: none;">
+      <div id="index-hierarchy-container"></div>
+    </div>
   </div>
 
+  <!-- ==========================================
+       VIEW 2: FLUID SLIDE-UP TOPIC MODAL
+       ========================================== -->
+  <div id="quizModal" class="modal-overlay">
+    <div class="modal-content-glass">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 id="modalUnitTitle" style="margin: 0; font-size: 1.15rem; color: #fff;">Configure Test</h3>
+        <span onclick="closeModal()" style="cursor: pointer; font-size: 1.3rem; color: #94a3b8; padding: 4px;">✕</span>
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin: 12px 0 6px;">Select Sub-topics:</p>
+      <div class="chip-grid" id="modalSubTopics"></div>
+
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin: 14px 0 6px;">Question Count:</p>
+      <div class="chip-grid">
+        <label class="chip-label"><input type="radio" name="qCount" value="5" checked><span class="chip-pill">5 Qs</span></label>
+        <label class="chip-label"><input type="radio" name="qCount" value="10"><span class="chip-pill">10 Qs</span></label>
+        <label class="chip-label"><input type="radio" name="qCount" value="15"><span class="chip-pill">15 Qs</span></label>
+        <label class="chip-label"><input type="radio" name="qCount" value="25"><span class="chip-pill">25 Qs</span></label>
+      </div>
+
+      <button onclick="launchCustomNTATest()" class="btn-quick" style="width: 100%; justify-content: center; padding: 13px; margin-top: 16px; font-size: 0.95rem; border-radius: 12px;">
+        Launch NTA CBT Simulator 🚀
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       VIEW 3: 100% AUTHENTIC NTA CBT EXAM SCREEN
+       ========================================== -->
   <div id="exam-screen">
-    <header>
-      <div class="brand-title" id="live-exam-title">Exam in Progress</div>
+    <!-- NTA Top Bar -->
+    <div class="cbt-topbar">
+      <div class="title">UGC-NET EXAM - NTA PORTAL</div>
+      <div class="candidate-info">
+        <div>
+          <div><strong>Candidate:</strong> UGC NET Aspirant</div>
+          <div><strong>Subject:</strong> Political Science</div>
+        </div>
+        <div class="candidate-photo">PHOTO</div>
+      </div>
+    </div>
+
+    <!-- NTA Sub Bar -->
+    <div class="cbt-subbar">
+      <div>
+        <button class="paper-btn" id="live-exam-title">Paper-II Political Science</button>
+      </div>
       <div class="timer-box">Time Left: <span id="timer">00:00:00</span></div>
-    </header>
+    </div>
+
+    <!-- NTA Main Split Interface -->
     <div class="main-container">
       <div class="question-panel">
         <div class="subject-bar">
-          <span id="section-meta">Political Science</span>
-          <span>Marking: +2, -0</span>
+          <span id="section-meta">Total Questions: 0</span>
+          <span>Marking: +2 / -0</span>
         </div>
         <div class="question-content">
           <div class="q-number" id="q-label">Question No. 1</div>
           <div class="q-text" id="q-text"></div>
-          <ul class="options-list" id="options-container"></ul>
+          <table class="options-table" id="options-container"></table>
         </div>
+        
+        <!-- Exact NTA Action Buttons -->
         <div class="action-bar">
-          <button class="btn-save-next" onclick="saveAndNext()">Save & Next</button>
-          <button class="btn-save-mark" onclick="saveAndMarkForReview()">Save & Mark for Review</button>
-          <button class="btn-clear" onclick="clearResponse()">Clear Response</button>
-          <button class="btn-mark-next" onclick="markForReviewAndNext()">Mark for Review & Next</button>
-          <button class="btn-submit" onclick="submitTest()">Submit Exam</button>
+          <div class="footer-left">
+            <button class="nta-btn btn-save-next" onclick="saveAndNext()">Save & Next</button>
+            <button class="nta-btn btn-save-mark" onclick="saveAndMarkForReview()">Save & Mark for Review</button>
+            <button class="nta-btn btn-clear" onclick="clearResponse()">Clear Response</button>
+            <button class="nta-btn btn-mark-next" onclick="markForReviewAndNext()">Mark for Review & Next</button>
+          </div>
+          <div class="footer-right">
+            <button class="nta-btn btn-submit" onclick="submitTest()">Submit Exam</button>
+          </div>
         </div>
       </div>
+
+      <!-- Right Palette Panel -->
       <div class="palette-panel">
         <div class="legend-grid">
-          <div><span class="badge status-not-visited" id="cnt-not-visited">0</span> Not Visited</div>
-          <div><span class="badge status-not-answered" id="cnt-not-answered">0</span> Not Answered</div>
-          <div><span class="badge status-answered" id="cnt-answered">0</span> Answered</div>
-          <div><span class="badge status-marked" id="cnt-marked">0</span> Marked</div>
-          <div style="grid-column: span 2;"><span class="badge status-marked-answered" id="cnt-marked-answered">0</span> Answered & Marked</div>
+          <div class="legend-item"><span class="badge status-answered" id="cnt-answered">0</span> Answered</div>
+          <div class="legend-item"><span class="badge status-not-answered" id="cnt-not-answered">0</span> Not Answered</div>
+          <div class="legend-item"><span class="badge status-not-visited" id="cnt-not-visited">0</span> Not Visited</div>
+          <div class="legend-item"><span class="badge status-marked" id="cnt-marked">0</span> Marked for Review</div>
+          <div class="legend-item" style="grid-column: span 2;">
+            <span class="badge status-marked-answered" id="cnt-marked-answered">0</span> Answered & Marked for Review (Evaluated)
+          </div>
         </div>
-        <strong>Question Palette:</strong>
+        <strong style="font-size: 0.85rem; color: #1e3a8a;">Question Palette:</strong>
         <div class="palette-grid" id="palette-container"></div>
       </div>
     </div>
   </div>
 
+  <!-- ==========================================
+       VIEW 4: DETAILED PERFORMANCE & REVIEW
+       ========================================== -->
   <div id="review-screen">
     <div class="review-container">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h2>Detailed Performance & Answer Review</h2>
-        <button class="btn-save-next" onclick="returnToHome()">Back to Home Portal</button>
+        <h2 style="font-size: 1.3rem;">Performance & Answer Key Analysis</h2>
+        <button class="btn-quick" onclick="returnToHome()">Back to Home Hub</button>
       </div>
       <div id="review-cards-list"></div>
     </div>
   </div>
 
+  <!-- Result Summary Modal -->
   <div class="modal" id="result-modal">
     <div class="modal-content">
-      <h2>Exam Result Summary</h2>
+      <h2 style="color: #1e3a8a;">NTA Exam Result Summary</h2>
       <table>
         <tr><td>Total Questions</td><td id="res-total">0</td></tr>
         <tr><td>Attempted</td><td id="res-attempted">0</td></tr>
@@ -144,20 +601,120 @@
         <tr><td>Score Obtained</td><td id="res-score">0</td></tr>
       </table>
       <div class="modal-actions">
-        <button class="btn-save-next" onclick="openReviewScreen()">Review Answers</button>
-        <button class="btn-clear" onclick="returnToHome()">Home</button>
+        <button class="btn-save-next nta-btn" onclick="openReviewScreen()">Review Explanations</button>
+        <button class="btn-clear nta-btn" onclick="returnToHome()">Return Home</button>
       </div>
     </div>
   </div>
 
+  <!-- Data Dependencies -->
+  <script src="unitTags.js"></script>
   <script src="papers.js"></script>
 
+  <!-- Complete Application Logic -->
   <script>
+    const unitsData = [
+      { id: 1, name: "Political Theory", icon: "⚖️", isPro: false },
+      { id: 2, name: "Western Political Thought", icon: "🏛️", isPro: false },
+      { id: 3, name: "Indian Political Thought", icon: "📜", isPro: true },
+      { id: 4, name: "Comparative Political Analysis", icon: "🌐", isPro: true },
+      { id: 5, name: "International Relations", icon: "🌍", isPro: true },
+      { id: 6, name: "India's Foreign Policy", icon: "🇮🇳", isPro: true },
+      { id: 7, name: "Political Institutions in India", icon: "🏢", isPro: true },
+      { id: 8, name: "Political Processes in India", icon: "🗳️", isPro: true },
+      { id: 9, name: "Public Administration", icon: "📑", isPro: true },
+      { id: 10, name: "Governance & Public Policy", icon: "🎯", isPro: true }
+    ];
+
+    const STATUS = {
+      NOT_VISITED: 'not-visited',
+      NOT_ANSWERED: 'not-answered',
+      ANSWERED: 'answered',
+      MARKED: 'marked',
+      MARKED_ANSWERED: 'marked-answered'
+    };
+
+    let activePaper = null;
+    let userState = [];
+    let currentIndex = 0;
+    let timerInterval = null;
+    let totalSeconds = 0;
+    let questionStartTime = 0;
+    let activeUnitId = null;
+
+    // Helper: Collect all questions with tags
+    function getAllQuestions() {
+      let pool = [];
+      if (typeof ugcNetRepository === 'undefined') return pool;
+
+      ugcNetRepository.forEach(yearGroup => {
+        yearGroup.sessions.forEach(sess => {
+          sess.papers.forEach(p => {
+            p.questions.forEach(q => {
+              const tag = (typeof questionClassifications !== 'undefined' && questionClassifications[p.id] && questionClassifications[p.id][q.id])
+                ? questionClassifications[p.id][q.id]
+                : { unit_id: q.unit_id || 1, unit_name: q.unit_name || "General", sub_topic: q.sub_topic || "General" };
+
+              pool.push({
+                ...q,
+                paperId: p.id,
+                paperTitle: p.title,
+                unit_id: tag.unit_id,
+                unit_name: tag.unit_name,
+                sub_topic: tag.sub_topic
+              });
+            });
+          });
+        });
+      });
+      return pool;
+    }
+
+    // Switch between Unit and Paper Tabs
+    function switchHomeTab(tab) {
+      document.getElementById('tabUnitsBtn').classList.toggle('active', tab === 'UNITS');
+      document.getElementById('tabPapersBtn').classList.toggle('active', tab === 'PAPERS');
+      document.getElementById('units-section').style.display = (tab === 'UNITS') ? 'block' : 'none';
+      document.getElementById('papers-section').style.display = (tab === 'PAPERS') ? 'block' : 'none';
+    }
+
+    // Render Unit Cards
+    function renderUnitCards() {
+      const container = document.getElementById('unitCardsContainer');
+      container.innerHTML = '';
+      const allQs = getAllQuestions();
+
+      unitsData.forEach((unit, index) => {
+        const count = allQs.filter(q => q.unit_id === unit.id).length;
+        const card = document.createElement('div');
+        card.className = 'unit-card';
+        card.style.animationDelay = `${(index * 0.05).toFixed(2)}s`;
+
+        card.innerHTML = `
+          <div class="unit-info">
+            <div class="unit-icon">${unit.icon}</div>
+            <div class="unit-meta">
+              <h3>Unit ${unit.id}: ${unit.name} ${unit.isPro ? '<span class="badge-pro">PRO</span>' : ''}</h3>
+              <span>${count > 0 ? count : 'Available'} Solved PYQs</span>
+            </div>
+          </div>
+          <div class="unit-actions">
+            <button class="btn-quick" onclick="event.stopPropagation(); startQuickUnitExam(${unit.id})">Quick Test</button>
+            <button class="btn-custom" title="Configure Subtopics" onclick="event.stopPropagation(); openCustomModal(${unit.id})">⚙️</button>
+          </div>
+        `;
+
+        card.addEventListener('click', () => openCustomModal(unit.id));
+        container.appendChild(card);
+      });
+    }
+
+    // Render Legacy Papers Index
     function renderHomeIndex() {
       const container = document.getElementById('index-hierarchy-container');
       container.innerHTML = '';
       if (typeof ugcNetRepository === 'undefined' || !ugcNetRepository.length) {
-        container.innerHTML = `<p style="padding: 20px; color: red;">Error: 'papers.js' file not found. Ensure both index.html and papers.js are in the same folder.</p>`;
+        container.innerHTML = `<p style="padding: 20px; color: red;">Error: 'papers.js' not loaded.</p>`;
         return;
       }
       ugcNetRepository.forEach(yearBlock => {
@@ -173,7 +730,7 @@
                   <div class="paper-info-title">${paper.title}</div>
                   <div class="paper-meta">${paper.questions.length} Questions | ${paper.durationMinutes} Minutes</div>
                 </div>
-                <button class="btn-start-test" onclick="launchTest('${paper.id}')">Start Test</button>
+                <button class="btn-quick" onclick="launchTest('${paper.id}')">Start NTA Test</button>
               </div>
             `;
           });
@@ -184,13 +741,53 @@
       });
     }
 
-    const STATUS = { NOT_VISITED: 'not-visited', NOT_ANSWERED: 'not-answered', ANSWERED: 'answered', MARKED: 'marked', MARKED_ANSWERED: 'marked-answered' };
-    let activePaper = null;
-    let userState = [];
-    let currentIndex = 0;
-    let timerInterval = null;
-    let totalSeconds = 0;
-    let questionStartTime = 0;
+    // Modal Triggers
+    function openCustomModal(unitId) {
+      activeUnitId = unitId;
+      const unit = unitsData.find(u => u.id === unitId);
+      document.getElementById("modalUnitTitle").innerText = `Unit ${unit.id}: ${unit.name}`;
+
+      const allQs = getAllQuestions().filter(q => q.unit_id === unitId);
+      const uniqueSubTopics = [...new Set(allQs.map(q => q.sub_topic).filter(Boolean))];
+      if (uniqueSubTopics.length === 0) uniqueSubTopics.push("All Sub-topics");
+
+      const chipsContainer = document.getElementById("modalSubTopics");
+      chipsContainer.innerHTML = uniqueSubTopics.map((topic, i) => `
+        <label class="chip-label">
+          <input type="checkbox" value="${topic}" ${i === 0 ? 'checked' : ''}>
+          <span class="chip-pill">${topic}</span>
+        </label>
+      `).join("");
+
+      document.getElementById("quizModal").classList.add("active");
+    }
+
+    function closeModal() {
+      document.getElementById("quizModal").classList.remove("active");
+    }
+
+    window.addEventListener("click", (e) => {
+      const modal = document.getElementById("quizModal");
+      if (e.target === modal) closeModal();
+    });
+
+    function launchCustomNTATest() {
+      const selectedCount = parseInt(document.querySelector('input[name="qCount"]:checked').value);
+      const selectedTopics = Array.from(document.querySelectorAll('#modalSubTopics input:checked')).map(cb => cb.value);
+
+      let filtered = getAllQuestions().filter(q => q.unit_id === activeUnitId);
+      if (selectedTopics.length > 0) {
+        filtered = filtered.filter(q => selectedTopics.includes(q.sub_topic));
+      }
+
+      closeModal();
+      initCBTWithQuestionSet(`Unit ${activeUnitId} Custom CBT`, filtered.slice(0, selectedCount), Math.min(filtered.length * 1.5, 75));
+    }
+
+    function startQuickUnitExam(unitId) {
+      const allQs = getAllQuestions().filter(q => q.unit_id === unitId);
+      initCBTWithQuestionSet(`Unit ${unitId} Quick Test`, allQs.slice(0, 10), 15);
+    }
 
     function launchTest(paperId) {
       for (const y of ugcNetRepository) {
@@ -200,7 +797,17 @@
         }
       }
       if (!activePaper) return;
+      initCBTWithQuestionSet(activePaper.title, activePaper.questions, activePaper.durationMinutes);
+    }
 
+    // Core CBT Starter
+    function initCBTWithQuestionSet(title, questions, durationMinutes) {
+      if (!questions || questions.length === 0) {
+        alert("No questions available for this selection.");
+        return;
+      }
+
+      activePaper = { title: title, questions: questions, durationMinutes: durationMinutes };
       document.getElementById('home-screen').style.display = 'none';
       document.getElementById('review-screen').style.display = 'none';
       document.getElementById('exam-screen').style.display = 'flex';
@@ -255,10 +862,14 @@
       activePaper.questions[currentIndex].options.forEach((opt, optIndex) => {
         const isChecked = userState[currentIndex].selectedOption === optIndex ? 'checked' : '';
         optionsList.innerHTML += `
-          <li class="option-item" onclick="selectOption(${optIndex})">
-            <input type="radio" name="opt" id="opt-${optIndex}" value="${optIndex}" ${isChecked}>
-            <label for="opt-${optIndex}" style="cursor: pointer; width: 100%;">${opt}</label>
-          </li>
+          <tr class="option-row" onclick="selectOption(${optIndex})">
+            <td style="width: 32px;">
+              <input type="radio" name="opt" id="opt-${optIndex}" value="${optIndex}" ${isChecked}>
+            </td>
+            <td>
+              <label for="opt-${optIndex}" style="cursor: pointer; display: block;">(${optIndex + 1}) ${opt}</label>
+            </td>
+          </tr>
         `;
       });
       updatePalette();
@@ -355,37 +966,37 @@
 
         let statusClass = isSkipped ? 'skipped' : (isCorrect ? 'correct' : 'incorrect');
         let statusBadge = isSkipped 
-          ? `<span style="color: #64748b; font-weight: bold;">NOT ATTEMPTED</span>` 
-          : (isCorrect ? `<span style="color: #16a34a; font-weight: bold;">CORRECT (+2)</span>` : `<span style="color: #dc2626; font-weight: bold;">INCORRECT (0)</span>`);
+          ? `<span style="color: #94a3b8; font-weight: bold;">NOT ATTEMPTED</span>` 
+          : (isCorrect ? `<span style="color: #22c55e; font-weight: bold;">CORRECT (+2)</span>` : `<span style="color: #ef4444; font-weight: bold;">INCORRECT (0)</span>`);
 
         let optionsHtml = '';
         q.options.forEach((opt, optIdx) => {
-          let optStyle = "padding: 8px 12px; margin-bottom: 6px; border-radius: 4px; border: 1px solid #e2e8f0;";
+          let optStyle = "padding: 10px 14px; margin-bottom: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); background: rgba(15,23,42,0.4);";
           if (optIdx === q.correct) {
-            optStyle += "background: #dcfce7; border-color: #22c55e; font-weight: bold; color: #15803d;";
+            optStyle = "padding: 10px 14px; margin-bottom: 8px; border-radius: 8px; background: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; font-weight: bold; color: #86efac;";
           } else if (optIdx === userChoice && !isCorrect) {
-            optStyle += "background: #fee2e2; border-color: #ef4444; font-weight: bold; color: #b91c1c;";
+            optStyle = "padding: 10px 14px; margin-bottom: 8px; border-radius: 8px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; font-weight: bold; color: #fca5a5;";
           }
-          optionsHtml += `<div style="${optStyle}">(${String.fromCharCode(97 + optIdx)}) ${opt}</div>`;
+          optionsHtml += `<div style="${optStyle}">(${String.fromCharCode(65 + optIdx)}) ${opt}</div>`;
         });
 
-        reviewContainer.innerHTML += `
-          <div class="review-card ${statusClass}">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <div>
-                <strong>Question ${i + 1}</strong>
-                <span class="time-badge">⏱️ Time Taken: ${timeTaken}</span>
-              </div>
-              <div>${statusBadge}</div>
-            </div>
-            <div style="font-size: 1.05rem; margin-bottom: 14px; white-space: pre-line;">${q.text}</div>
-            <div style="margin-bottom: 14px;">${optionsHtml}</div>
-            <div class="review-explanation">
-              <strong>Official Explanation:</strong> ${q.explanation || "No explanation provided."}
-            </div>
+        const card = document.createElement('div');
+        card.className = `review-card ${statusClass}`;
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div><strong>Question ${i + 1}</strong> &bull; ${statusBadge}</div>
+            <span class="time-badge">⏱️ ${timeTaken}</span>
+          </div>
+          <p style="font-size: 0.96rem; line-height: 1.6; margin-bottom: 14px; font-weight: 500;">${q.text}</p>
+          <div style="margin-bottom: 12px;">${optionsHtml}</div>
+          <div class="review-explanation">
+            <strong>Official NTA Explanation:</strong> ${q.explanation || 'No detailed explanation provided.'}
           </div>
         `;
+        reviewContainer.appendChild(card);
       });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function returnToHome() {
@@ -393,10 +1004,14 @@
       document.getElementById('exam-screen').style.display = 'none';
       document.getElementById('review-screen').style.display = 'none';
       document.getElementById('home-screen').style.display = 'block';
-      renderHomeIndex();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    window.onload = renderHomeIndex;
+    // Initialize Home on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderUnitCards();
+      renderHomeIndex();
+    });
   </script>
 </body>
 </html>
