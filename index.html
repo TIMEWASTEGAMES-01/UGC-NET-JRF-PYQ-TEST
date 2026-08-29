@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UGC NET Political Science - Mock Portal</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; height: 100vh; display: flex; flex-direction: column; }
+    header { background-color: #1e3a8a; color: #fff; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #f59e0b; }
+    .brand-title { font-size: 1.15rem; font-weight: bold; }
+    .timer-box { background: #dc2626; padding: 6px 14px; border-radius: 4px; font-weight: bold; font-size: 1rem; }
+    
+    #home-screen { flex: 1; padding: 30px 20px; max-width: 1050px; margin: 0 auto; width: 100%; overflow-y: auto; }
+    .portal-banner { background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 24px; border-left: 5px solid #1e3a8a; }
+    .year-card { background: #fff; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 20px; overflow: hidden; }
+    .year-header { background: #f8fafc; padding: 14px 20px; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid #e2e8f0; color: #1e3a8a; }
+    .session-container { padding: 15px 20px; display: flex; flex-direction: column; gap: 15px; }
+    .session-title { font-weight: 600; font-size: 1rem; color: #475569; }
+    .paper-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .paper-btn-card { border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; background: #f8fafc; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
+    .paper-btn-card:hover { border-color: #1e3a8a; background: #f0fdf4; }
+    .paper-info-title { font-weight: bold; color: #0f172a; font-size: 0.95rem; }
+    .paper-meta { font-size: 0.85rem; color: #64748b; margin-top: 4px; }
+    .btn-start-test { background-color: #16a34a; color: white; border: none; padding: 9px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+    #exam-screen { display: none; flex: 1; flex-direction: column; height: 100%; }
+    .main-container { display: flex; flex: 1; overflow: hidden; }
+    .question-panel { flex: 7; display: flex; flex-direction: column; background: #fff; border-right: 2px solid #cbd5e1; }
+    .subject-bar { background-color: #e2e8f0; padding: 10px 20px; font-weight: 600; display: flex; justify-content: space-between; border-bottom: 1px solid #cbd5e1; }
+    .question-content { padding: 25px; flex: 1; overflow-y: auto; }
+    .q-number { font-weight: bold; margin-bottom: 12px; color: #1e3a8a; font-size: 1rem; }
+    .q-text { font-size: 1.05rem; line-height: 1.6; margin-bottom: 24px; white-space: pre-line; }
+    .options-list { list-style: none; }
+    .option-item { margin-bottom: 12px; display: flex; align-items: flex-start; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; }
+    .option-item:hover { background-color: #f1f5f9; }
+    .option-item input { margin-right: 12px; margin-top: 3px; }
+    
+    .action-bar { padding: 12px 20px; background: #f8fafc; border-top: 1px solid #cbd5e1; display: flex; gap: 10px; flex-wrap: wrap; }
+    button { padding: 8px 16px; font-size: 0.9rem; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-save-next { background-color: #16a34a; color: white; }
+    .btn-save-mark { background-color: #f59e0b; color: white; }
+    .btn-clear { background-color: #64748b; color: white; }
+    .btn-mark-next { background-color: #9333ea; color: white; }
+    .btn-submit { background-color: #dc2626; color: white; margin-left: auto; }
+    
+    .palette-panel { flex: 3; background: #f8fafc; padding: 15px; display: flex; flex-direction: column; overflow-y: auto; }
+    .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.75rem; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #cbd5e1; }
+    .badge { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; color: white; border-radius: 4px; }
+    .status-not-visited { background: #cbd5e1; color: #333; }
+    .status-not-answered { background: #ef4444; }
+    .status-answered { background: #22c55e; }
+    .status-marked { background: #a855f7; border-radius: 50%; }
+    .status-marked-answered { background: #a855f7; border-radius: 50%; position: relative; }
+    .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+    .palette-btn { height: 35px; border: 1px solid #cbd5e1; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 4px; }
+
+    #review-screen { display: none; flex: 1; flex-direction: column; height: 100%; background: #f8fafc; overflow-y: auto; padding: 25px; }
+    .review-container { max-width: 900px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+    .review-card { background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #cbd5e1; }
+    .review-card.correct { border-left: 6px solid #16a34a; }
+    .review-card.incorrect { border-left: 6px solid #dc2626; }
+    .review-card.skipped { border-left: 6px solid #64748b; }
+    .review-explanation { margin-top: 15px; padding: 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.95rem; line-height: 1.5; color: #334155; }
+    .time-badge { font-size: 0.85rem; color: #475569; background: #e2e8f0; padding: 4px 8px; border-radius: 4px; font-weight: normal; margin-left: 10px; }
+    
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); align-items: center; justify-content: center; z-index: 1000; }
+    .modal-content { background: white; padding: 24px; border-radius: 8px; max-width: 480px; width: 90%; text-align: center; }
+    .modal-content table { width: 100%; margin: 15px 0; border-collapse: collapse; }
+    .modal-content td { padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    .modal-content td:last-child { text-align: right; font-weight: bold; }
+    .modal-actions { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+  </style>
+</head>
+<body>
+
+  <div id="home-screen">
+    <div class="portal-banner">
+      <h2>UGC NET Political Science - Mock Portal</h2>
+      <p style="margin-top: 6px; color: #64748b;">Select the Examination Year, Session, and Paper to start the CBT test practice.</p>
+    </div>
+    <div id="index-hierarchy-container"></div>
+  </div>
+
+  <div id="exam-screen">
+    <header>
+      <div class="brand-title" id="live-exam-title">Exam in Progress</div>
+      <div class="timer-box">Time Left: <span id="timer">00:00:00</span></div>
+    </header>
+    <div class="main-container">
+      <div class="question-panel">
+        <div class="subject-bar">
+          <span id="section-meta">Political Science</span>
+          <span>Marking: +2, -0</span>
+        </div>
+        <div class="question-content">
+          <div class="q-number" id="q-label">Question No. 1</div>
+          <div class="q-text" id="q-text"></div>
+          <ul class="options-list" id="options-container"></ul>
+        </div>
+        <div class="action-bar">
+          <button class="btn-save-next" onclick="saveAndNext()">Save & Next</button>
+          <button class="btn-save-mark" onclick="saveAndMarkForReview()">Save & Mark for Review</button>
+          <button class="btn-clear" onclick="clearResponse()">Clear Response</button>
+          <button class="btn-mark-next" onclick="markForReviewAndNext()">Mark for Review & Next</button>
+          <button class="btn-submit" onclick="submitTest()">Submit Exam</button>
+        </div>
+      </div>
+      <div class="palette-panel">
+        <div class="legend-grid">
+          <div><span class="badge status-not-visited" id="cnt-not-visited">0</span> Not Visited</div>
+          <div><span class="badge status-not-answered" id="cnt-not-answered">0</span> Not Answered</div>
+          <div><span class="badge status-answered" id="cnt-answered">0</span> Answered</div>
+          <div><span class="badge status-marked" id="cnt-marked">0</span> Marked</div>
+          <div style="grid-column: span 2;"><span class="badge status-marked-answered" id="cnt-marked-answered">0</span> Answered & Marked</div>
+        </div>
+        <strong>Question Palette:</strong>
+        <div class="palette-grid" id="palette-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="review-screen">
+    <div class="review-container">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h2>Detailed Performance & Answer Review</h2>
+        <button class="btn-save-next" onclick="returnToHome()">Back to Home Portal</button>
+      </div>
+      <div id="review-cards-list"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="result-modal">
+    <div class="modal-content">
+      <h2>Exam Result Summary</h2>
+      <table>
+        <tr><td>Total Questions</td><td id="res-total">0</td></tr>
+        <tr><td>Attempted</td><td id="res-attempted">0</td></tr>
+        <tr><td>Correct Answers</td><td id="res-correct" style="color: #16a34a;">0</td></tr>
+        <tr><td>Incorrect Answers</td><td id="res-wrong" style="color: #dc2626;">0</td></tr>
+        <tr><td>Score Obtained</td><td id="res-score">0</td></tr>
+      </table>
+      <div class="modal-actions">
+        <button class="btn-save-next" onclick="openReviewScreen()">Review Answers</button>
+        <button class="btn-clear" onclick="returnToHome()">Home</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="papers.js"></script>
+
+  <script>
+    function renderHomeIndex() {
+      const container = document.getElementById('index-hierarchy-container');
+      container.innerHTML = '';
+      if (typeof ugcNetRepository === 'undefined' || !ugcNetRepository.length) {
+        container.innerHTML = `<p style="padding: 20px; color: red;">Error: 'papers.js' file not found. Ensure both index.html and papers.js are in the same folder.</p>`;
+        return;
+      }
+      ugcNetRepository.forEach(yearBlock => {
+        const yearCard = document.createElement('div');
+        yearCard.className = 'year-card';
+        let sessionsHtml = '';
+        yearBlock.sessions.forEach(session => {
+          let papersHtml = '';
+          session.papers.forEach(paper => {
+            papersHtml += `
+              <div class="paper-btn-card">
+                <div>
+                  <div class="paper-info-title">${paper.title}</div>
+                  <div class="paper-meta">${paper.questions.length} Questions | ${paper.durationMinutes} Minutes</div>
+                </div>
+                <button class="btn-start-test" onclick="launchTest('${paper.id}')">Start Test</button>
+              </div>
+            `;
+          });
+          sessionsHtml += `<div class="session-container"><div class="session-title">● ${session.sessionName}</div><div class="paper-grid">${papersHtml}</div></div>`;
+        });
+        yearCard.innerHTML = `<div class="year-header">Examination Year: ${yearBlock.year}</div>${sessionsHtml}`;
+        container.appendChild(yearCard);
+      });
+    }
+
+    const STATUS = { NOT_VISITED: 'not-visited', NOT_ANSWERED: 'not-answered', ANSWERED: 'answered', MARKED: 'marked', MARKED_ANSWERED: 'marked-answered' };
+    let activePaper = null;
+    let userState = [];
+    let currentIndex = 0;
+    let timerInterval = null;
+    let totalSeconds = 0;
+    let questionStartTime = 0;
+
+    function launchTest(paperId) {
+      for (const y of ugcNetRepository) {
+        for (const s of y.sessions) {
+          const match = s.papers.find(p => p.id === paperId);
+          if (match) { activePaper = match; break; }
+        }
+      }
+      if (!activePaper) return;
+
+      document.getElementById('home-screen').style.display = 'none';
+      document.getElementById('review-screen').style.display = 'none';
+      document.getElementById('exam-screen').style.display = 'flex';
+      document.getElementById('live-exam-title').innerText = activePaper.title;
+      document.getElementById('section-meta').innerText = `Total Questions: ${activePaper.questions.length}`;
+
+      totalSeconds = activePaper.durationMinutes * 60;
+      userState = activePaper.questions.map(() => ({ selectedOption: null, status: STATUS.NOT_VISITED, timeSpent: 0 }));
+      
+      startTimer();
+      questionStartTime = Date.now();
+      loadQuestion(0, true);
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      const timerEl = document.getElementById('timer');
+      timerInterval = setInterval(() => {
+        if (totalSeconds <= 0) {
+          clearInterval(timerInterval);
+          submitTest();
+          return;
+        }
+        totalSeconds--;
+        const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+        const secs = String(totalSeconds % 60).padStart(2, '0');
+        timerEl.innerText = `${hrs}:${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function recordTime() {
+      const now = Date.now();
+      userState[currentIndex].timeSpent += (now - questionStartTime);
+      questionStartTime = now;
+    }
+
+    function loadQuestion(index, isStart = false) {
+      if (!isStart) recordTime();
+      currentIndex = index;
+      
+      if (userState[currentIndex].status === STATUS.NOT_VISITED) {
+        userState[currentIndex].status = STATUS.NOT_ANSWERED;
+      }
+
+      document.getElementById('q-label').innerText = `Question No. ${currentIndex + 1} of ${activePaper.questions.length}`;
+      document.getElementById('q-text').innerText = activePaper.questions[currentIndex].text;
+
+      const optionsList = document.getElementById('options-container');
+      optionsList.innerHTML = '';
+
+      activePaper.questions[currentIndex].options.forEach((opt, optIndex) => {
+        const isChecked = userState[currentIndex].selectedOption === optIndex ? 'checked' : '';
+        optionsList.innerHTML += `
+          <li class="option-item" onclick="selectOption(${optIndex})">
+            <input type="radio" name="opt" id="opt-${optIndex}" value="${optIndex}" ${isChecked}>
+            <label for="opt-${optIndex}" style="cursor: pointer; width: 100%;">${opt}</label>
+          </li>
+        `;
+      });
+      updatePalette();
+    }
+
+    function selectOption(optIndex) {
+      userState[currentIndex].selectedOption = optIndex;
+      const radio = document.getElementById(`opt-${optIndex}`);
+      if (radio) radio.checked = true;
+    }
+
+    function saveAndNext() {
+      userState[currentIndex].status = (userState[currentIndex].selectedOption !== null) ? STATUS.ANSWERED : STATUS.NOT_ANSWERED;
+      if (currentIndex < activePaper.questions.length - 1) loadQuestion(currentIndex + 1);
+      else updatePalette();
+    }
+
+    function saveAndMarkForReview() {
+      userState[currentIndex].status = (userState[currentIndex].selectedOption !== null) ? STATUS.MARKED_ANSWERED : STATUS.MARKED;
+      if (currentIndex < activePaper.questions.length - 1) loadQuestion(currentIndex + 1);
+      else updatePalette();
+    }
+
+    function markForReviewAndNext() { saveAndMarkForReview(); }
+
+    function clearResponse() {
+      userState[currentIndex].selectedOption = null;
+      userState[currentIndex].status = STATUS.NOT_ANSWERED;
+      loadQuestion(currentIndex, true);
+    }
+
+    function updatePalette() {
+      const paletteContainer = document.getElementById('palette-container');
+      paletteContainer.innerHTML = '';
+      let counts = { [STATUS.NOT_VISITED]: 0, [STATUS.NOT_ANSWERED]: 0, [STATUS.ANSWERED]: 0, [STATUS.MARKED]: 0, [STATUS.MARKED_ANSWERED]: 0 };
+
+      userState.forEach((state, i) => {
+        counts[state.status]++;
+        const btn = document.createElement('button');
+        btn.innerText = i + 1;
+        btn.className = `palette-btn status-${state.status}`;
+        btn.onclick = () => loadQuestion(i);
+        paletteContainer.appendChild(btn);
+      });
+
+      document.getElementById('cnt-not-visited').innerText = counts[STATUS.NOT_VISITED];
+      document.getElementById('cnt-not-answered').innerText = counts[STATUS.NOT_ANSWERED];
+      document.getElementById('cnt-answered').innerText = counts[STATUS.ANSWERED];
+      document.getElementById('cnt-marked').innerText = counts[STATUS.MARKED];
+      document.getElementById('cnt-marked-answered').innerText = counts[STATUS.MARKED_ANSWERED];
+    }
+
+    function submitTest() {
+      if (timerInterval) clearInterval(timerInterval);
+      recordTime(); 
+      let correct = 0, wrong = 0, attempted = 0;
+
+      userState.forEach((state, i) => {
+        if (state.selectedOption !== null) {
+          attempted++;
+          if (state.selectedOption === activePaper.questions[i].correct) correct++;
+          else wrong++;
+        }
+      });
+
+      document.getElementById('res-total').innerText = activePaper.questions.length;
+      document.getElementById('res-attempted').innerText = attempted;
+      document.getElementById('res-correct').innerText = correct;
+      document.getElementById('res-wrong').innerText = wrong;
+      document.getElementById('res-score').innerText = `${correct * 2} / ${activePaper.questions.length * 2}`;
+      document.getElementById('result-modal').style.display = 'flex';
+    }
+
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+    }
+
+    function openReviewScreen() {
+      document.getElementById('result-modal').style.display = 'none';
+      document.getElementById('exam-screen').style.display = 'none';
+      document.getElementById('review-screen').style.display = 'flex';
+
+      const reviewContainer = document.getElementById('review-cards-list');
+      reviewContainer.innerHTML = '';
+
+      activePaper.questions.forEach((q, i) => {
+        const userChoice = userState[i].selectedOption;
+        const isCorrect = userChoice === q.correct;
+        const isSkipped = userChoice === null;
+        const timeTaken = formatTime(userState[i].timeSpent);
+
+        let statusClass = isSkipped ? 'skipped' : (isCorrect ? 'correct' : 'incorrect');
+        let statusBadge = isSkipped 
+          ? `<span style="color: #64748b; font-weight: bold;">NOT ATTEMPTED</span>` 
+          : (isCorrect ? `<span style="color: #16a34a; font-weight: bold;">CORRECT (+2)</span>` : `<span style="color: #dc2626; font-weight: bold;">INCORRECT (0)</span>`);
+
+        let optionsHtml = '';
+        q.options.forEach((opt, optIdx) => {
+          let optStyle = "padding: 8px 12px; margin-bottom: 6px; border-radius: 4px; border: 1px solid #e2e8f0;";
+          if (optIdx === q.correct) {
+            optStyle += "background: #dcfce7; border-color: #22c55e; font-weight: bold; color: #15803d;";
+          } else if (optIdx === userChoice && !isCorrect) {
+            optStyle += "background: #fee2e2; border-color: #ef4444; font-weight: bold; color: #b91c1c;";
+          }
+          optionsHtml += `<div style="${optStyle}">(${String.fromCharCode(97 + optIdx)}) ${opt}</div>`;
+        });
+
+        reviewContainer.innerHTML += `
+          <div class="review-card ${statusClass}">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <div>
+                <strong>Question ${i + 1}</strong>
+                <span class="time-badge">⏱️ Time Taken: ${timeTaken}</span>
+              </div>
+              <div>${statusBadge}</div>
+            </div>
+            <div style="font-size: 1.05rem; margin-bottom: 14px; white-space: pre-line;">${q.text}</div>
+            <div style="margin-bottom: 14px;">${optionsHtml}</div>
+            <div class="review-explanation">
+              <strong>Official Explanation:</strong> ${q.explanation || "No explanation provided."}
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function returnToHome() {
+      document.getElementById('result-modal').style.display = 'none';
+      document.getElementById('exam-screen').style.display = 'none';
+      document.getElementById('review-screen').style.display = 'none';
+      document.getElementById('home-screen').style.display = 'block';
+      renderHomeIndex();
+    }
+
+    window.onload = renderHomeIndex;
+  </script>
+</body>
+</html>
