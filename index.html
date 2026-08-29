@@ -41,7 +41,7 @@
       overflow-x: hidden;
     }
 
-    /* Top Sticky Header */
+    /* Top Sticky Navigation Bar */
     .top-navbar {
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(12px);
@@ -53,7 +53,7 @@
       align-items: center;
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 100;
     }
 
     .nav-left { display: flex; align-items: center; gap: 14px; }
@@ -85,12 +85,14 @@
       cursor: pointer;
     }
 
-    /* Side Navigation Drawer */
+    /* =========================================================
+       SIDE NAVIGATION DRAWER (Z-INDEX 99999 TO STAY ABOVE ADS)
+       ========================================================= */
     .drawer-overlay {
       position: fixed; inset: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
-      z-index: 998; opacity: 0; pointer-events: none;
+      z-index: 99998; opacity: 0; pointer-events: none;
       transition: opacity 0.3s ease;
     }
     .drawer-overlay.active { opacity: 1; pointer-events: auto; }
@@ -98,10 +100,10 @@
     .side-drawer {
       position: fixed; top: 0; left: 0; bottom: 0; width: 300px;
       background: #0d1527; border-right: 1px solid var(--border-glass);
-      z-index: 999; display: flex; flex-direction: column;
+      z-index: 99999; display: flex; flex-direction: column;
       transform: translateX(-100%);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 12px 0 40px rgba(0, 0, 0, 0.7);
+      box-shadow: 12px 0 40px rgba(0, 0, 0, 0.8);
     }
     .drawer-overlay.active .side-drawer { transform: translateX(0); }
 
@@ -130,20 +132,36 @@
       font-size: 0.72rem; padding: 3px 8px; border-radius: 12px; font-weight: 800;
     }
 
-    /* Shared Page Wrapper */
+    /* Page Containers */
     .page-container {
       flex: 1; max-width: 980px; margin: 0 auto; width: 100%;
       padding: 24px 16px 50px; overflow-y: auto;
+      position: relative;
+      z-index: 10;
     }
 
-    /* Landing Hub 3 Main Option Cards */
-    .portal-hero-clean {
+    /* Safe Isolated Advertisement Wrapper */
+    .ad-slot-card {
+      margin: 0 auto 20px;
+      padding: 10px;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-glass);
+      border-radius: 14px;
       text-align: center;
-      padding: 30px 10px 24px;
+      min-height: 80px;
+      max-height: 120px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 10;
     }
+
+    /* Landing Hub 3 Cards */
+    .portal-hero-clean { text-align: center; padding: 30px 10px 24px; }
     .portal-hero-clean h1 {
-      font-size: 1.8rem;
-      font-weight: 800;
+      font-size: 1.8rem; font-weight: 800;
       background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -194,7 +212,7 @@
     }
     .btn-enter-hub:hover { filter: brightness(1.15); transform: translateY(-1px); }
 
-    /* Back Header for Sub-pages */
+    /* Sub-page Controls */
     .subpage-header {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -206,20 +224,8 @@
     }
     .btn-back-hub:hover { background: rgba(255,255,255,0.15); }
 
-    /* Ad Container Inside Subpages */
-    .subpage-ad-wrapper {
-      margin-bottom: 20px;
-      padding: 12px;
-      background: rgba(15, 23, 42, 0.4);
-      border: 1px dashed rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      text-align: center;
-    }
-
-    /* Unit Cards Grid */
-    .units-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;
-    }
+    /* Units Grid */
+    .units-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
     .unit-neo-card {
       background: var(--surface-1); border: 1px solid var(--border-glass);
       border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column;
@@ -233,11 +239,36 @@
       border: 1px solid rgba(6, 182, 212, 0.3); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
     }
 
+    /* Vault Card */
+    .vault-hero-card {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.15), rgba(30, 41, 59, 0.85));
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      border-radius: 20px;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .vault-title-group { display: flex; align-items: center; gap: 16px; }
+    .vault-icon-badge {
+      width: 50px; height: 50px; border-radius: 16px;
+      background: linear-gradient(135deg, #f43f5e, #be123c);
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+    }
+    .btn-vault-action {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: #fff; border: none; padding: 10px 20px; border-radius: 12px;
+      font-weight: 700; font-size: 0.88rem; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+
     /* Modal Backdrop */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(12px); display: flex; align-items: flex-end; justify-content: center;
-      z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+      z-index: 10000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .modal-glass-body {
@@ -258,16 +289,17 @@
     .chip-item {
       display: inline-block; background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-glass); color: var(--text-sub); font-size: 0.8rem;
-      padding: 6px 12px; border-radius: 20px; cursor: pointer; transition: all 0.2s ease;
+      padding: 6px 12px; border-radius: 20px; cursor: pointer;
     }
     .chips-cluster label input:checked + .chip-item {
       background: rgba(6, 182, 212, 0.25); border-color: var(--neon-cyan); color: #fff; font-weight: 700;
     }
 
-    /* NTA CBT Engine */
+    /* 100% NTA CBT Screen */
     #exam-screen {
       display: none; flex-direction: column; height: 100vh;
       background-color: #f1f5f9; color: #1e293b; font-family: Arial, Helvetica, sans-serif; user-select: none;
+      position: relative; z-index: 1000;
     }
     .cbt-topbar {
       background: #002b49; color: #fff; padding: 8px 16px;
@@ -340,8 +372,8 @@
     .review-card.skipped { border-left: 6px solid #64748b; }
     .review-explanation { margin-top: 14px; padding: 12px; background: rgba(6, 182, 212, 0.1); border-radius: 8px; font-size: 0.88rem; line-height: 1.5; color: #a5f3fc; border-left: 3px solid var(--neon-cyan); }
 
-    /* Result Modal */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); align-items: center; justify-content: center; z-index: 1000; }
+    /* Modal */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); align-items: center; justify-content: center; z-index: 10001; }
     .modal-content { background: #fff; padding: 24px; border-radius: 12px; max-width: 460px; width: 90%; text-align: center; color: #0f172a; }
     .modal-content table { width: 100%; margin: 15px 0; border-collapse: collapse; }
     .modal-content td { padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
@@ -357,7 +389,7 @@
       <span class="brand-title-text" onclick="showSection('HUB')">PolSci Master</span>
     </div>
     <div>
-      <span style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: 600;">UGC NET Hub</span>
+      <span style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: 600;">UGC NET Portal</span>
     </div>
   </div>
 
@@ -387,31 +419,31 @@
   </div>
 
   <!-- =========================================================
-       PAGE 1: MAIN CLEAN LANDING HUB (NO ADVERTISEMENTS HERE)
+       PAGE 1: CLEAN HOME LANDING (ZERO ADS ON THIS SCREEN)
        ========================================================= -->
   <div class="page-container" id="hub-landing-view">
     <div class="portal-hero-clean">
       <h1>UGC NET Political Science</h1>
-      <p>Select your practice mode below to launch the NTA CBT test engine</p>
+      <p>Select a mode below or use the ☰ menu to launch your practice session</p>
     </div>
 
     <div class="hub-options-grid">
-      <!-- Option 1: Year-Wise Papers -->
+      <!-- 1. Year-Wise Papers -->
       <div class="hub-card" onclick="showSection('PAPERS')">
         <div>
           <div class="hub-card-top">
             <div class="hub-card-icon" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(37, 99, 235, 0.3)); border: 1px solid rgba(56, 189, 248, 0.4);">📅</div>
             <div>
               <h3>Year-Wise PYQ Tests</h3>
-              <span style="font-size: 0.78rem; color: var(--neon-cyan);">2012 to 2014 Shift Solved Papers</span>
+              <span style="font-size: 0.78rem; color: var(--neon-cyan);">2012 to 2014 Solved Shift Papers</span>
             </div>
           </div>
-          <p style="margin-top: 14px;">Practice full chronological official examination papers with full duration timers and scoring.</p>
+          <p style="margin-top: 14px;">Practice full chronological official examination papers with timers and scoring.</p>
         </div>
         <button class="btn-enter-hub" style="background: linear-gradient(135deg, #0284c7, #2563eb);">Open Year-Wise Papers →</button>
       </div>
 
-      <!-- Option 2: Topic & Sub-Topic Wise -->
+      <!-- 2. Topic & Sub-Topic Wise -->
       <div class="hub-card" onclick="showSection('UNITS')">
         <div>
           <div class="hub-card-top">
@@ -421,12 +453,12 @@
               <span style="font-size: 0.78rem; color: var(--neon-emerald);">10 Syllabus Units Filter</span>
             </div>
           </div>
-          <p style="margin-top: 14px;">Focus practice on specific political theorists, Indian polity institutions, and IR concepts.</p>
+          <p style="margin-top: 14px;">Focus on specific political thinkers, Indian constitution institutions, and IR models.</p>
         </div>
         <button class="btn-enter-hub" style="background: linear-gradient(135deg, #059669, #10b981);">Open Topic-Wise Practice →</button>
       </div>
 
-      <!-- Option 3: Smart Mistake Revision Vault -->
+      <!-- 3. Smart Mistake Revision Vault -->
       <div class="hub-card" onclick="showSection('VAULT')">
         <div>
           <div class="hub-card-top">
@@ -436,7 +468,7 @@
               <span id="hubVaultCountSub" style="font-size: 0.78rem; color: #fca5a5;">0 Mistakes Recorded</span>
             </div>
           </div>
-          <p style="margin-top: 14px;">Auto-recorded incorrect and skipped questions. Re-test mistakes until you achieve 100% mastery.</p>
+          <p style="margin-top: 14px;">Auto-recorded incorrect questions. Re-test mistakes until you achieve 100% mastery.</p>
         </div>
         <button class="btn-enter-hub" style="background: linear-gradient(135deg, #e11d48, #f43f5e);">Open Mistake Vault →</button>
       </div>
@@ -444,7 +476,7 @@
   </div>
 
   <!-- =========================================================
-       PAGE 2: YEAR-WISE PAPERS SECTION (AD IS ACTIVE HERE)
+       PAGE 2: YEAR-WISE PAPERS (ISOLATED AD SANDBOX)
        ========================================================= -->
   <div class="page-container" id="papers-page-view" style="display: none;">
     <div class="subpage-header">
@@ -452,14 +484,17 @@
       <button class="btn-back-hub" onclick="showSection('HUB')">← Back to Hub</button>
     </div>
 
-    <!-- Active Advertisement Unit -->
-    <div class="subpage-ad-wrapper" id="adContainerPapers"></div>
+    <!-- Isolated Static Ad Card -->
+    <div class="ad-slot-card">
+      <script async="async" data-cfasync="false" src="https://pl31059663.profitableratecpmnetwork.com/cc1a85889222cae3b7348d6eb86030f8/invoke.js"></script>
+      <div id="container-cc1a85889222cae3b7348d6eb86030f8"></div>
+    </div>
 
     <div id="index-hierarchy-container"></div>
   </div>
 
   <!-- =========================================================
-       PAGE 3: TOPIC & SUB-TOPIC SECTION (AD IS ACTIVE HERE)
+       PAGE 3: TOPIC-WISE PRACTICE (ISOLATED AD SANDBOX)
        ========================================================= -->
   <div class="page-container" id="units-page-view" style="display: none;">
     <div class="subpage-header">
@@ -467,23 +502,22 @@
       <button class="btn-back-hub" onclick="showSection('HUB')">← Back to Hub</button>
     </div>
 
-    <!-- Active Advertisement Unit -->
-    <div class="subpage-ad-wrapper" id="adContainerUnits"></div>
+    <!-- Isolated Static Ad Card -->
+    <div class="ad-slot-card">
+      <div id="container-cc1a85889222cae3b7348d6eb86030f8_units"></div>
+    </div>
 
     <div class="units-grid" id="unitCardsContainer"></div>
   </div>
 
   <!-- =========================================================
-       PAGE 4: SMART MISTAKE VAULT (AD IS ACTIVE HERE)
+       PAGE 4: REVISION VAULT (ISOLATED AD SANDBOX)
        ========================================================= -->
   <div class="page-container" id="vault-page-view" style="display: none;">
     <div class="subpage-header">
       <h2 style="font-size: 1.25rem;">📕 Smart Revision Vault</h2>
       <button class="btn-back-hub" onclick="showSection('HUB')">← Back to Hub</button>
     </div>
-
-    <!-- Active Advertisement Unit -->
-    <div class="subpage-ad-wrapper" id="adContainerVault"></div>
 
     <div class="vault-hero-card" style="margin-bottom: 20px;">
       <div class="vault-title-group">
@@ -497,6 +531,11 @@
         <button class="btn-vault-action" onclick="launchVaultCBT()">Re-Test in CBT Mode ⚡</button>
         <button class="btn-back-hub" onclick="clearEntireVault()" title="Clear Vault">🗑️ Clear</button>
       </div>
+    </div>
+
+    <!-- Isolated Static Ad Card -->
+    <div class="ad-slot-card">
+      <div id="container-cc1a85889222cae3b7348d6eb86030f8_vault"></div>
     </div>
 
     <div id="vaultQuestionList" style="display: flex; flex-direction: column; gap: 12px;"></div>
@@ -621,7 +660,7 @@
   <script src="unitTags.js"></script>
   <script src="papers.js"></script>
 
-  <!-- Complete Script Engine -->
+  <!-- Application Controller -->
   <script>
     const unitsData = [
       { id: 1, name: "Political Theory", icon: "⚖️" },
@@ -654,7 +693,7 @@
     let questionStartTime = 0;
     let activeUnitId = null;
 
-    // Side Drawer Controls
+    // Drawer Menu
     function toggleSideMenu() {
       document.getElementById('sideDrawerOverlay').classList.toggle('active');
     }
@@ -677,28 +716,7 @@
       closeSideMenu();
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // Trigger advertisement rendering only inside the 3 subpages
-      if (section === 'PAPERS') injectAdTo('adContainerPapers');
-      else if (section === 'UNITS') injectAdTo('adContainerUnits');
-      else if (section === 'VAULT') {
-        injectAdTo('adContainerVault');
-        updateVaultUI();
-      }
-    }
-
-    // Safe Advertisement Injector for Subpages
-    function injectAdTo(containerId) {
-      const el = document.getElementById(containerId);
-      if (el && !el.hasChildNodes()) {
-        const adDiv = document.createElement('div');
-        adDiv.id = "container-cc1a85889222cae3b7348d6eb86030f8";
-        const script = document.createElement('script');
-        script.async = true;
-        script.setAttribute('data-cfasync', 'false');
-        script.src = "https://pl31059663.profitableratecpmnetwork.com/cc1a85889222cae3b7348d6eb86030f8/invoke.js";
-        el.appendChild(script);
-        el.appendChild(adDiv);
-      }
+      if (section === 'VAULT') updateVaultUI();
     }
 
     function getAllQuestions() {
@@ -785,7 +803,7 @@
       });
     }
 
-    // Vault Storage & UI Logic
+    // Vault Storage Logic
     function getStoredMistakes() {
       const data = localStorage.getItem(VAULT_STORAGE_KEY);
       return data ? JSON.parse(data) : [];
@@ -880,7 +898,7 @@
       initCBTWithQuestionSet("Mistake Vault Re-Test", vault, Math.min(Math.ceil(vault.length * 1.5), 75));
     }
 
-    // Modal Operations
+    // Modal
     function openCustomModal(unitId) {
       activeUnitId = unitId;
       const unit = unitsData.find(u => u.id === unitId);
@@ -1165,7 +1183,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Initialize App
     window.addEventListener('DOMContentLoaded', () => {
       renderUnitCards();
       renderHomeIndex();
